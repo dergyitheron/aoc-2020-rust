@@ -1,5 +1,5 @@
-use std::time::{Instant, Duration};
 use itertools::Itertools;
+use std::time::{Duration, Instant};
 
 use super::input::file_to_string;
 
@@ -22,23 +22,22 @@ fn part1(loops: u32) -> Duration {
 
     let _result = contents
       .lines()
-      .map(|line| line
-        .split(|item| item == '-' || item == ' ' || item == ':')
-        .collect_vec()
-      )
+      .map(|line| {
+        line
+          .split(|item| item == '-' || item == ' ' || item == ':')
+          .collect_vec()
+      })
       .filter(|item| {
-        let count = item[4]
-          .matches(item[2])
-          .collect::<Vec<&str>>()
-          .len();
+        let count = item[4].matches(item[2]).collect::<Vec<&str>>().len();
         count >= item[0].parse().unwrap() && count <= item[1].parse().unwrap()
-      }).count();
+      })
+      .count();
 
     //  println!("{}", result);
 
     acc += Instant::now().duration_since(start);
   }
-  acc/loops
+  acc / loops
 }
 
 // PART 2
@@ -54,21 +53,24 @@ fn part2(loops: u32) -> Duration {
 
     let _result = contents
       .lines()
-      .map(|line| line.split(|item| item == '-' || item == ' ' || item == ':').collect_vec())
+      .map(|line| {
+        line
+          .split(|item| item == '-' || item == ' ' || item == ':')
+          .collect_vec()
+      })
       .filter(|item| {
         let characters = item[4].chars().collect_vec();
-        let first_pos = characters[item[0].parse::<usize>().unwrap()-1];
-        let second_pos = characters[item[1].parse::<usize>().unwrap()-1];
+        let first_pos = characters[item[0].parse::<usize>().unwrap() - 1];
+        let second_pos = characters[item[1].parse::<usize>().unwrap() - 1];
         let letter = item[2].parse().unwrap();
 
-        first_pos == letter && second_pos != letter ||
-        first_pos != letter && second_pos == letter
+        (first_pos == letter) ^ (second_pos == letter)
       })
       .count();
 
-    //  println!("{}", _result);
+    println!("{}", _result);
 
     acc += Instant::now().duration_since(start);
   }
-  acc/loops
+  acc / loops
 }

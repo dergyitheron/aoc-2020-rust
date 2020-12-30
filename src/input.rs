@@ -1,5 +1,5 @@
-use std::fs;
 use std::env;
+use std::fs;
 
 pub fn file_to_string(filepath: &str) -> String {
   let mut path = env::current_dir().expect("Error reading current directory");
